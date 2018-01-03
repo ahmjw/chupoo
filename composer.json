@@ -1,0 +1,23 @@
+{
+    "name": "ahmjw/chupoo-framework",
+    "description": "HMVC (Hierarchical Model-View-Controller) PHP Framework",
+    "homepage": "https://tech.introvesia.com",
+    "keywords": ["php", "hmvc", "framework"],
+    "license": "apache-2.0",
+    "authors": [
+        {
+            "name": "Ahmad",
+            "email": "rawndummy@gmail.com",
+            "homepage": "http://twitter.com/ahmjw"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Djokka\\": "src/"
+        }
+    }
+}
