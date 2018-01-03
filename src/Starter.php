@@ -188,7 +188,7 @@ class Starter
 				}
 			}
 		} else {
-			$path = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'others' . 
+			$path = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'others' . 
 				DIRECTORY_SEPARATOR . 'error.php';
 			print($controller->outputBuffering($path, array(
 				'exception' => $exc,
