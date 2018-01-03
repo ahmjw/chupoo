@@ -8,7 +8,7 @@
 
 namespace Chupoo\Views;
 
-class DomProcessor
+class LayoutDom
 {
 	private $dom;
 	private $content;
@@ -93,13 +93,13 @@ class DomProcessor
 		$nodes = $this->dom->getElementsByTagName('c-content');
 		$node = $nodes->item(0);
 		if ($node) {
-		// 	$name = Controller::getInstance()->config['controller_dir_path'] . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 
-		// 		$this->config['view']['name'] . '.html';
-		// 	if (file_exists($name)) {
-		// 		$content = file_get_contents($name);
-		// 		$dom = new View($content, $this->config['view']['data'], $this->config);
-		// 		$dom->parse();
-				$element = $this->dom->createTextNode($this->data['content']); 
+			$name = $this->config['module_path'] . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 
+				$this->data->name . '.html';
+			if (file_exists($name)) {
+				$content = file_get_contents($name);
+				$dom = new ViewDom($content, $this->data->data, $this->config);
+				$dom->parse();
+				$element = $this->dom->createTextNode($dom->getHtml());
 				$parent = $node->parentNode;
 				$parent->insertBefore($element, $node);
 				$parent->removeChild($node);
@@ -107,24 +107,24 @@ class DomProcessor
 				$head = $this->dom->getElementsByTagName('head')->item(0);
 				$body = $this->dom->getElementsByTagName('body')->item(0);
 
-		// 		// Apply styles
-		// 		foreach ($dom->getStyles() as $node) {
-		// 			$imported_node = $this->dom->importNode($node, true);
-		// 			$head->appendChild($imported_node);
-		// 		}
+				// Apply styles
+				foreach ($dom->getStyles() as $node) {
+					$imported_node = $this->dom->importNode($node, true);
+					$head->appendChild($imported_node);
+				}
 
-		// 		// Apply scripts		
-		// 		foreach ($this->scripts as $node) {
-		// 			$imported_node = $this->dom->importNode($node, true);
-		// 			$body->appendChild($imported_node);
-		// 		}
+				// Apply scripts		
+				foreach ($this->scripts as $node) {
+					$imported_node = $this->dom->importNode($node, true);
+					$body->appendChild($imported_node);
+				}
 
-		// 		// Apply scripts		
-		// 		foreach ($dom->getScripts() as $node) {
-		// 			$imported_node = $this->dom->importNode($node, true);
-		// 			$body->appendChild($imported_node);
-		// 		}
-		// 	}
+				// Apply scripts		
+				foreach ($dom->getScripts() as $node) {
+					$imported_node = $this->dom->importNode($node, true);
+					$body->appendChild($imported_node);
+				}
+			}
 		}
 
 		// // Apply variables
