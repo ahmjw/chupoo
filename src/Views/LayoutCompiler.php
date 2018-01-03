@@ -50,25 +50,35 @@ class LayoutCompiler extends Compiler
 				self::$layout = 'index';
 		}
 
-		$this->dir = Config::find('theme_path') . DIRECTORY_SEPARATOR . self::$theme .
-    		DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR;
-		$this->path = $this->dir . self::$layout . '.php';
+		$this->dir = Config::find('theme_path') . DIRECTORY_SEPARATOR . self::$theme . DIRECTORY_SEPARATOR;
+		$this->path = $this->dir . self::$layout . '.html';
     	if (!file_exists($this->path)) {
         	throw new \Exception('Layout file is not found: ' . Starter::abbrPath($this->path), 500);
         }
         $content = $this->bind($this->path);
-		// CSS
-		$css = '<style type="text/css">' . $this->yields('css') . '</style>';
-		$content = preg_replace_callback('/\<\/head\>/', function($match) use($css) {
-			return $css . '</head>';
-		}, $content);
-		// JS
-		$js = '<script language="javascript">' . $this->yields('js') . '</script>';
-		$content = preg_replace_callback('/\<\/body\>/', function($match) use($js) {
-			return $js . '</body>';
-		}, $content);
+        $config = array(
+        	'base_url' => Config::find('base_url'),
+        	'layout_url' => Config::find('theme_url') . '/themes/' . self::$theme
+        );
+        $data = array(
+        	'content' => self::$sections['content']
+        );
+        $dom = new DomProcessor($content, $data, $config);
+        $dom->parse();
+        echo $dom->getHtml();
+        exit;
+		// // CSS
+		// $css = '<style type="text/css">' . $this->yields('css') . '</style>';
+		// $content = preg_replace_callback('/\<\/head\>/', function($match) use($css) {
+		// 	return $css . '</head>';
+		// }, $content);
+		// // JS
+		// $js = '<script language="javascript">' . $this->yields('js') . '</script>';
+		// $content = preg_replace_callback('/\<\/body\>/', function($match) use($js) {
+		// 	return $js . '</body>';
+		// }, $content);
 
-		return $content;
+		// return $content;
 	}
 
 	private static function parseToken($token)
@@ -87,13 +97,6 @@ class LayoutCompiler extends Compiler
         	throw new \Exception('Layout file is not found: ' . Starter::abbrPath($path), 500);
         }
         return self::bind($path);
-	}
-
-	public function yields($name)
-	{
-		if (!isset(self::$sections[$name]))
-			return;
-		return self::$sections[$name];
 	}
 
 	public function widget($name)

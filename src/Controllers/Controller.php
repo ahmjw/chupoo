@@ -101,7 +101,7 @@ class Controller
 	        	$compiler->render($closure);
 	        	$compiler = new LayoutCompiler();
 	        	$compiler::$module_path = $this->hmvc->module_path;
-	        	print($compiler->render());
+	        	$compiler->render();
 		    } else {
 		    	header('Content-type: application/json');
 	        	print(json_encode($closure));
