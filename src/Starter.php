@@ -6,12 +6,12 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka;
+namespace Chupoo;
 
 use Exception;
-use Djokka\Helpers\Config;
-use Djokka\Controllers\Hmvc;
-use Djokka\Controllers\Controller;
+use Chupoo\Helpers\Config;
+use Chupoo\Controllers\Hmvc;
+use Chupoo\Controllers\Controller;
 
 class Starter
 {

@@ -6,10 +6,10 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka\Views;
+namespace Chupoo\Views;
 
-use Djokka\Config;
-use Djokka\Starter;
+use Chupoo\Config;
+use Chupoo\Starter;
 
 class View
 {

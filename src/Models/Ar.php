@@ -6,7 +6,7 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka\Models;
+namespace Chupoo\Models;
 
 use PDO;
 use Exception;

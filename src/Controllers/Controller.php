@@ -6,22 +6,22 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka\Controllers;
+namespace Chupoo\Controllers;
 
 use Exception;
-use Djokka\Starter;
-use Djokka\Views\View;
-use Djokka\Views\ViewCompiler;
-use Djokka\Views\LayoutCompiler;
-use Djokka\Views\WidgetCompiler;
-use Djokka\Helpers\Config;
-use Djokka\Helpers\User;
-use Djokka\Helpers\File;
-use Djokka\Helpers\Image;
-use Djokka\Helpers\Session;
-use Djokka\Helpers\Html;
-use Djokka\Helpers\StringLib;
-use Djokka\Helpers\Email;
+use Chupoo\Starter;
+use Chupoo\Views\View;
+use Chupoo\Views\ViewCompiler;
+use Chupoo\Views\LayoutCompiler;
+use Chupoo\Views\WidgetCompiler;
+use Chupoo\Helpers\Config;
+use Chupoo\Helpers\User;
+use Chupoo\Helpers\File;
+use Chupoo\Helpers\Image;
+use Chupoo\Helpers\Session;
+use Chupoo\Helpers\Html;
+use Chupoo\Helpers\StringLib;
+use Chupoo\Helpers\Email;
 
 class Controller
 {

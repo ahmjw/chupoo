@@ -6,7 +6,7 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka\Helpers;
+namespace Chupoo\Helpers;
 
 use Exception;
 

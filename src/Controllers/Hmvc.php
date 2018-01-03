@@ -6,9 +6,9 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka\Controllers;
+namespace Chupoo\Controllers;
 
-use Djokka\Helpers\Config;
+use Chupoo\Helpers\Config;
 
 class Hmvc
 {

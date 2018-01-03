@@ -6,7 +6,7 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka\Controllers;
+namespace Chupoo\Controllers;
 
 class CoreHelper
 {

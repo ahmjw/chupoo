@@ -6,11 +6,11 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka\Models;
+namespace Chupoo\Models;
 
 use Exception;
-use Djokka\Starter;
-use Djokka\Helpers\Config;
+use Chupoo\Starter;
+use Chupoo\Helpers\Config;
 
 abstract class Model
 {

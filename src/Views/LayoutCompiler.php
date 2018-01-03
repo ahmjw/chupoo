@@ -6,10 +6,10 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka\Views;
+namespace Chupoo\Views;
 
-use Djokka\Starter;
-use Djokka\Helpers\Config;
+use Chupoo\Starter;
+use Chupoo\Helpers\Config;
 
 class LayoutCompiler extends Compiler
 {

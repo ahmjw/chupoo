@@ -6,7 +6,7 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka\Models;
+namespace Chupoo\Models;
 
 abstract class DataNav extends Model
 {

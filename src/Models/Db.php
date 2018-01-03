@@ -6,10 +6,10 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Djokka\Models;
+namespace Chupoo\Models;
 
 use Exception;
-use Djokka\Helpers\Config;
+use Chupoo\Helpers\Config;
 
 class Db
 {

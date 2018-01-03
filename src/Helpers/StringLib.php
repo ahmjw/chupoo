@@ -1,6 +1,6 @@
 <?php
 
-namespace Djokka\Helpers;
+namespace Chupoo\Helpers;
 
 class StringLib
 {
