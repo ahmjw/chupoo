@@ -11,7 +11,6 @@ namespace Chupoo\Controllers;
 use Exception;
 use Chupoo\Starter;
 use Chupoo\Views\View;
-use Chupoo\Views\ViewCompiler;
 use Chupoo\Views\LayoutCompiler;
 use Chupoo\Views\WidgetCompiler;
 use Chupoo\Helpers\Config;
@@ -97,11 +96,9 @@ class Controller
     		$args = !empty($args) ? $args : $this->hmvc->args;
     		$closure = call_user_func_array($closure, $args);
 	        if ($closure instanceof View) {
-	        	$compiler = new ViewCompiler();
-	        	$compiler->render($closure);
 	        	$compiler = new LayoutCompiler();
 	        	$compiler::$module_path = $this->hmvc->module_path;
-	        	$compiler->render();
+	        	$compiler->render($closure);
 		    } else {
 		    	header('Content-type: application/json');
 	        	print(json_encode($closure));
@@ -469,24 +466,24 @@ class Controller
 		}
 	}
 
-	public function import($route)
-	{
-		$module = str_replace('/', DIRECTORY_SEPARATOR, substr($route, 0, strrpos($route, '/')));
-		$action = substr($route, strrpos($route, '/') + 1);
-		$path = $this->moduleDir() . str_replace(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR, $module) .
-			DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $action . '.php';
-		if (file_exists($path)) {
-			$content = $this->outputBuffering($path);
-			if ($content instanceof View) {
-				$compiler = new ViewCompiler();
-				echo $compiler->readView($content);
-			} else {
-				echo $content;
-			}
-		} else {
-			throw new Exception('The module is not found: ' . Starter::abbrPath($path), 500);
-		}
-	}
+	// public function import($route)
+	// {
+	// 	$module = str_replace('/', DIRECTORY_SEPARATOR, substr($route, 0, strrpos($route, '/')));
+	// 	$action = substr($route, strrpos($route, '/') + 1);
+	// 	$path = $this->moduleDir() . str_replace(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR, $module) .
+	// 		DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $action . '.php';
+	// 	if (file_exists($path)) {
+	// 		$content = $this->outputBuffering($path);
+	// 		if ($content instanceof View) {
+	// 			$compiler = new ViewCompiler();
+	// 			echo $compiler->readView($content);
+	// 		} else {
+	// 			echo $content;
+	// 		}
+	// 	} else {
+	// 		throw new Exception('The module is not found: ' . Starter::abbrPath($path), 500);
+	// 	}
+	// }
 
 	public function clearWidget($name = null)
 	{

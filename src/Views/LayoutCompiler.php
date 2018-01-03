@@ -33,7 +33,7 @@ class LayoutCompiler extends Compiler
 		return include($path);
 	}
 
-	public function render()
+	public function render($view)
 	{
 		// Load properties
 		$properties = $this->loadModuleProperties();
@@ -57,28 +57,13 @@ class LayoutCompiler extends Compiler
         }
         $content = $this->bind($this->path);
         $config = array(
+        	'module_path' => self::$module_path,
         	'base_url' => Config::find('base_url'),
         	'layout_url' => Config::find('theme_url') . '/themes/' . self::$theme
         );
-        $data = array(
-        	'content' => self::$sections['content']
-        );
-        $dom = new DomProcessor($content, $data, $config);
+        $dom = new LayoutDom($content, $view, $config);
         $dom->parse();
-        echo $dom->getHtml();
-        exit;
-		// // CSS
-		// $css = '<style type="text/css">' . $this->yields('css') . '</style>';
-		// $content = preg_replace_callback('/\<\/head\>/', function($match) use($css) {
-		// 	return $css . '</head>';
-		// }, $content);
-		// // JS
-		// $js = '<script language="javascript">' . $this->yields('js') . '</script>';
-		// $content = preg_replace_callback('/\<\/body\>/', function($match) use($js) {
-		// 	return $js . '</body>';
-		// }, $content);
-
-		// return $content;
+        print($dom->getHtml());
 	}
 
 	private static function parseToken($token)
