@@ -69,7 +69,8 @@ class LayoutDom
 		if (empty($this->content)) return;
 
 		$this->dom = new \DomDocument();
-		$content = mb_convert_encoding($this->content, 'HTML-ENTITIES', 'UTF-8');
+		// $content = mb_convert_encoding($this->content, 'HTML-ENTITIES', 'UTF-8');
+		$content = $this->content;
 		@$this->dom->loadHTML($content);
 
 		$this->applyVisibility();
@@ -143,7 +144,7 @@ class LayoutDom
 	private function parseToElement($key, $value)
 	{
 		$xpath = new \DOMXPath($this->dom);
-		$results = $xpath->query("//*[@class='" . $key . "']");
+		$results = $xpath->query("//*[@c." . $key . "]");
 
 		if ($results->length > 0) {
 			// Get HTML

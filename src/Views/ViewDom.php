@@ -74,7 +74,8 @@ class ViewDom
 	{
 		if (empty($this->content)) return;
 
-		$content = mb_convert_encoding($this->content, 'HTML-ENTITIES', 'UTF-8');
+		// $content = mb_convert_encoding($this->content, 'HTML-ENTITIES', 'UTF-8');
+		$content = $this->content;
 
 		$this->dom = new \DomDocument();
 		@$this->dom->loadHTML($content);
@@ -86,12 +87,12 @@ class ViewDom
 				$this->parseToElement($key, $value);
 			} else {
 				$xpath = new \DOMXPath($this->dom);
-				$results = $xpath->query("//*[@data:'" . $key . "']");
+				$results = @$xpath->query("//*[@c." . $key . "]");
 
 				if ($results->length > 0) {
 					// Get HTML
 					$node = $results->item(0);
-					$node->nodeValue = $value;
+					$this->setElementContent($node, $value);
 				}
 			}
 		}
@@ -101,10 +102,21 @@ class ViewDom
 		$this->separateScript();
 	}
 
+	private function setElementContent($node, $value)
+	{
+		if ($node->tagName == 'input') {
+			$node->setAttribute('value', $value);
+		} else if ($node->tagName == 'a') {
+			$node->setAttribute('href', $value);
+		} else  {
+			$node->nodeValue = $value;
+		}
+	}
+
 	private function parseToElement($key, $value)
 	{
 		$xpath = new \DOMXPath($this->dom);
-		$results = $xpath->query("//*[@data:'" . $key . "']");
+		$results = $xpath->query("//*[@c." . $key . "]");
 
 		if ($results->length > 0) {
 			// Get HTML
@@ -154,7 +166,7 @@ class ViewDom
 	private function parseToNode($id, $key, $value)
 	{
 		$xpath = new \DOMXPath($this->dom);
-		$results = $xpath->query("//*[@data:'" . $key . "']");
+		$results = $xpath->query("//*[@c." . $key . "]");
 
 		if ($results->length > 0) {
 			$node = $results->item(0);
@@ -170,7 +182,7 @@ class ViewDom
 					}
 				}
 			} else {
-				@$node->nodeValue = $value;
+				$this->setElementContent($node, $value);
 			}
 		}
 	}
