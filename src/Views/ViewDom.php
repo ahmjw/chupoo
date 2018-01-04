@@ -86,7 +86,7 @@ class ViewDom
 				$this->parseToElement($key, $value);
 			} else {
 				$xpath = new \DOMXPath($this->dom);
-				$results = $xpath->query("//*[@data-php-id='" . $key . "']");
+				$results = $xpath->query("//*[@data:'" . $key . "']");
 
 				if ($results->length > 0) {
 					// Get HTML
@@ -104,7 +104,7 @@ class ViewDom
 	private function parseToElement($key, $value)
 	{
 		$xpath = new \DOMXPath($this->dom);
-		$results = $xpath->query("//*[@data-php-class='" . $key . "']");
+		$results = $xpath->query("//*[@data:'" . $key . "']");
 
 		if ($results->length > 0) {
 			// Get HTML
@@ -154,7 +154,7 @@ class ViewDom
 	private function parseToNode($id, $key, $value)
 	{
 		$xpath = new \DOMXPath($this->dom);
-		$results = $xpath->query("//*[@data-php-class='" . $key . "']");
+		$results = $xpath->query("//*[@data:'" . $key . "']");
 
 		if ($results->length > 0) {
 			$node = $results->item(0);
