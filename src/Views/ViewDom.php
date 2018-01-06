@@ -109,7 +109,7 @@ class ViewDom
 		} else if ($node->tagName == 'a') {
 			$node->setAttribute('href', $value);
 		} else  {
-			$node->nodeValue = $value;
+			$node->nodeValue = htmlentities($value);
 		}
 	}
 
@@ -139,7 +139,7 @@ class ViewDom
 						$this->parseToNode($key2, $key3, $value3);
 					}
 				} else {
-					$node->nodeValue = $value2;
+					$this->setElementContent($node, $value2);
 				}
 
 				unset($this->data[$key]);
@@ -154,7 +154,7 @@ class ViewDom
 			if ($node && is_array($value)) {
 				foreach ($value as $key2 => $value2) {
 					if (is_numeric($key2)) {
-						$node->nodeValue = $value2;
+						$this->setElementContent($node, $value2);
 					} else{
 						$node->setAttribute($key2, $value2);
 					}
