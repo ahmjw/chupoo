@@ -52,12 +52,13 @@ class LayoutCompiler extends Compiler
 		}
 
 		$this->dir = Config::find('theme_path') . DIRECTORY_SEPARATOR . self::$theme . DIRECTORY_SEPARATOR;
-		$this->path = $this->dir . self::$layout . '.html';
     	if (!file_exists($this->path)) {
         	throw new \Exception('Layout file is not found: ' . Starter::abbrPath($this->path), 500);
         }
         $content = $this->bind($this->path);
         $config = array(
+        	'name' => self::$layout,
+        	'path' => $this->dir,
         	'module_path' => self::$module_path,
         	'base_url' => Config::find('base_url'),
         	'layout_url' => Config::find('theme_url') . '/themes/' . self::$theme
