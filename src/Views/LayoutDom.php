@@ -76,7 +76,7 @@ class LayoutDom
 		$this->applyVisibility();
 
 		// Layout importing
-		$nodes = $this->dom->getElementsByTagName('c-import');
+		$nodes = $this->dom->getElementsByTagName('c.import');
 		foreach ($nodes as $node) {
 			$name = Controller::getInstance()->config['layout_dir'] . DIRECTORY_SEPARATOR . $node->getAttribute('name') . '.html';
 			if (file_exists($name)) {
@@ -91,7 +91,7 @@ class LayoutDom
 		}
 
 		// Yield content
-		$nodes = $this->dom->getElementsByTagName('c-content');
+		$nodes = $this->dom->getElementsByTagName('c.content');
 		$node = $nodes->item(0);
 		if ($node) {
 			$name = $this->config['module_path'] . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 
