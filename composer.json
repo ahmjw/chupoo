@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Introvesia\\Chupoo\\": "src/"
+            "Introvesia\\Chupoo\\": "src/Introvesia/Chupoo"
         }
     }
 }
