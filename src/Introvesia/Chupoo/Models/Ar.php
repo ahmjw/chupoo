@@ -6,7 +6,7 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Chupoo\Models;
+namespace Introvesia\Chupoo\Models;
 
 use PDO;
 use Exception;

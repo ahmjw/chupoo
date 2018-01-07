@@ -6,10 +6,10 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Chupoo\Views;
+namespace Introvesia\Chupoo\Views;
 
-use Chupoo\Starter;
-use Chupoo\Helpers\Config;
+use Introvesia\Chupoo\Starter;
+use Introvesia\Chupoo\Helpers\Config;
 
 class WidgetCompiler extends Compiler
 {

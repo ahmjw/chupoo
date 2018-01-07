@@ -6,7 +6,7 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Chupoo\Controllers;
+namespace Introvesia\Chupoo\Controllers;
 
 class CoreHelper
 {

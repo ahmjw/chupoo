@@ -6,10 +6,10 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Chupoo\Models;
+namespace Introvesia\Chupoo\Models;
 
 use Exception;
-use Chupoo\Helpers\Config;
+use Introvesia\Chupoo\Helpers\Config;
 
 class Db
 {

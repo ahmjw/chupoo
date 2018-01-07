@@ -6,9 +6,9 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Chupoo\Controllers;
+namespace Introvesia\Chupoo\Controllers;
 
-use Chupoo\Helpers\Config;
+use Introvesia\Chupoo\Helpers\Config;
 
 class Hmvc
 {

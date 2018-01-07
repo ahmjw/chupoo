@@ -6,7 +6,7 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Chupoo\Helpers;
+namespace Introvesia\Chupoo\Helpers;
 
 use stdClass;
 

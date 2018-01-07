@@ -6,21 +6,21 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Chupoo\Controllers;
+namespace Introvesia\Chupoo\Controllers;
 
 use Exception;
-use Chupoo\Starter;
-use Chupoo\Views\View;
-use Chupoo\Views\LayoutCompiler;
-use Chupoo\Views\WidgetCompiler;
-use Chupoo\Helpers\Config;
-use Chupoo\Helpers\User;
-use Chupoo\Helpers\File;
-use Chupoo\Helpers\Image;
-use Chupoo\Helpers\Session;
-use Chupoo\Helpers\Html;
-use Chupoo\Helpers\StringLib;
-use Chupoo\Helpers\Email;
+use Introvesia\Chupoo\Starter;
+use Introvesia\Chupoo\Views\View;
+use Introvesia\Chupoo\Views\LayoutCompiler;
+use Introvesia\Chupoo\Views\WidgetCompiler;
+use Introvesia\Chupoo\Helpers\Config;
+use Introvesia\Chupoo\Helpers\User;
+use Introvesia\Chupoo\Helpers\File;
+use Introvesia\Chupoo\Helpers\Image;
+use Introvesia\Chupoo\Helpers\Session;
+use Introvesia\Chupoo\Helpers\Html;
+use Introvesia\Chupoo\Helpers\StringLib;
+use Introvesia\Chupoo\Helpers\Email;
 
 class Controller
 {

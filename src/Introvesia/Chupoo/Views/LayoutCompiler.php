@@ -6,10 +6,11 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Chupoo\Views;
+namespace Introvesia\Chupoo\Views;
 
-use Chupoo\Starter;
-use Chupoo\Helpers\Config;
+use Introvesia\Chupoo\Starter;
+use Introvesia\Chupoo\Helpers\Config;
+use Introvesia\PhpDomView\Layout;
 
 class LayoutCompiler extends Compiler
 {
@@ -61,7 +62,7 @@ class LayoutCompiler extends Compiler
         	'base_url' => Config::find('base_url'),
         	'layout_url' => Config::find('theme_url') . '/themes/' . self::$theme
         );
-        $dom = new LayoutDom($content, $view, $config);
+        $dom = new Layout($config, $data);
         $dom->parse();
         print($dom->getHtml());
 	}

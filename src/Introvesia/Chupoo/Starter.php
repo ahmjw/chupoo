@@ -9,9 +9,9 @@
 namespace Chupoo;
 
 use Exception;
-use Chupoo\Helpers\Config;
-use Chupoo\Controllers\Hmvc;
-use Chupoo\Controllers\Controller;
+use Introvesia\Chupoo\Helpers\Config;
+use Introvesia\Chupoo\Controllers\Hmvc;
+use Introvesia\Chupoo\Controllers\Controller;
 
 class Starter
 {

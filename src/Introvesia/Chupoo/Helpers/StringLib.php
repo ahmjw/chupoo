@@ -1,6 +1,6 @@
 <?php
 
-namespace Chupoo\Helpers;
+namespace Introvesia\Chupoo\Helpers;
 
 class StringLib
 {

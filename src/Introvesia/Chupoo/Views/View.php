@@ -6,10 +6,10 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Chupoo\Views;
+namespace Introvesia\Chupoo\Views;
 
-use Chupoo\Config;
-use Chupoo\Starter;
+use Introvesia\Chupoo\Config;
+use Introvesia\Chupoo\Starter;
 
 class View
 {
