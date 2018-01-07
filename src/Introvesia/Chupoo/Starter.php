@@ -153,15 +153,13 @@ class Starter
 						self::$controller->render('index/_error', array($exc), Hmvc::TYPE_WIDGET);
 					}
 				} else if (self::$controller === null) {
-					$controller = new Controller();
-					$this->render($controller, $exc);
+					$this->showError($exc);
 				} else {
 					try{
 						self::$controller->layout = 'index';
 						self::$controller->render('index/_error', array($exc), Hmvc::TYPE_WIDGET);
 					} catch(Exception $ex) {
-						$controller = new Controller();
-						$this->render($controller, $ex);
+						$this->showError($ex);
 					}
 				}
 			} else if (self::$controller->content_type === 'json') {
@@ -174,26 +172,14 @@ class Starter
 				));
 			}
 		} else {
-			echo '<html><head><title>Error ' . $exc->getCode() . '</title></head>';
-			echo '<body><h1>Error ' . $exc->getCode() . '</h1><p>' . $exc->getMessage() . '</p></body></html>';
+			$this->showError($exc);
 		}
 	}
 
-	private function render($controller, $exc)
+	private function showError($exc)
 	{
-		if ($exc->getCode() == 403) {
-			if (Config::contain('login_route')) {
-				if (Config::find('login_route') != $controller->route) {
-					$controller->redirect('/' . Config::find('login_route'));
-				}
-			}
-		} else {
-			$path = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'others' . 
-				DIRECTORY_SEPARATOR . 'error.php';
-			print($controller->outputBuffering($path, array(
-				'exception' => $exc,
-			)));
-		}
+		echo '<html><head><title>Error ' . $exc->getCode() . '</title></head>';
+		echo '<body><h1>Error ' . $exc->getCode() . '</h1><p>' . $exc->getMessage() . '</p></body></html>';
 	}
 
 	public static function abbrPath($path)
