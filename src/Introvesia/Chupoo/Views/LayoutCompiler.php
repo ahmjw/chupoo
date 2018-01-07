@@ -52,20 +52,20 @@ class LayoutCompiler extends Compiler
 		}
 
 		$this->dir = Config::find('theme_path') . DIRECTORY_SEPARATOR . self::$theme . DIRECTORY_SEPARATOR;
-    	if (!file_exists($this->path)) {
-        	throw new \Exception('Layout file is not found: ' . Starter::abbrPath($this->path), 500);
-        }
-        $content = $this->bind($this->path);
+		$view_path = self::$module_path . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $view->name . '.html';
+
         $config = array(
         	'name' => self::$layout,
         	'path' => $this->dir,
+        	'view' => $view_path,
         	'module_path' => self::$module_path,
         	'base_url' => Config::find('base_url'),
         	'layout_url' => Config::find('theme_url') . '/themes/' . self::$theme
         );
-        $dom = new Layout($config, $data);
+
+        $dom = new Layout($config, $view->data);
         $dom->parse();
-        print($dom->getHtml());
+        print($dom->getOutput());
 	}
 
 	private static function parseToken($token)
