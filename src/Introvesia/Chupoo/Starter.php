@@ -6,7 +6,7 @@
  * @author Ahmad <ahmadjawahirabd@gmail.com>
  */
 
-namespace Chupoo;
+namespace Introvesia\Chupoo;
 
 use Exception;
 use Introvesia\Chupoo\Helpers\Config;
