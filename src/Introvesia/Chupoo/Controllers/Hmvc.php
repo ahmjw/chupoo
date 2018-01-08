@@ -87,8 +87,9 @@ class Hmvc
                 }
                 $previous .= $routes[$i];
             }
+
             foreach (array_slice($routes, $i + 1) as $arg) {
-                $this->args[] = rawurldecode($arg);
+                $this->args[] = urldecode($arg);
             }
         } else {
             $this->module = !empty($this->initial_route) ? $this->initial_route : 'index';

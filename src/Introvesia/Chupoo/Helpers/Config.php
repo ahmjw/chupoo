@@ -8,11 +8,14 @@
 
 namespace Introvesia\Chupoo\Helpers;
 
+use Introvesia\Chupoo\Controllers\Controller;
+
 class Config
 {
 	private static $config = array(
 		'default_user_session_name' => 'admin',
 		'debug_mode' => false,
+		'dir_type' => Controller::DIR_TYPE_CURRENT
 	);
 
 	public static function prepend()

@@ -28,6 +28,11 @@ class Controller
 	public $hmvc;
 	public $widgets = array();
 
+	const DIR_TYPE_CURRENT = 0;
+	const DIR_TYPE_PROJECT = 1;
+	const DIR_TYPE_LOAD = 2;
+	const DIR_TYPE_SHARED = 3;
+
 	public function __construct()
 	{
 		$this->user = new User();
@@ -286,7 +291,7 @@ class Controller
 			throw new Exception('Model file is not found: ' . Starter::abbrPath($path), 500);
 		}
 		include_once($path);
-		$name = 'Models\\' . $name;
+		$name = '\\Models\\' . $name;
 		if (!class_exists($name)) {
 			throw new Exception("Model class is not found: $name", 500);
 		}

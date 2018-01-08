@@ -34,19 +34,29 @@ class Starter
         $config['host_url'] = $protocol . '://' . $host;
         $config['app_path'] = $config['base_path'] . DIRECTORY_SEPARATOR . 'app';
         $config['base_url'] = $config['host_url'] . $path;
-        if (isset($config['core_dir']) && isset($config['app_dir'])) {
-        	$config['app_path'] = $config['base_path'] . DIRECTORY_SEPARATOR . $config['core_dir'] . DIRECTORY_SEPARATOR . 'projects' . 
-        	DIRECTORY_SEPARATOR . $config['app_dir'] . DIRECTORY_SEPARATOR . 'app';
-        	$config['app_path'] = str_replace('/', DIRECTORY_SEPARATOR, $config['app_path']);
-        	$config['theme_path'] = $config['base_path'] . DIRECTORY_SEPARATOR . $config['core_dir'] . DIRECTORY_SEPARATOR . 'themes';
-        	$config['theme_path'] = str_replace('/', DIRECTORY_SEPARATOR, $config['theme_path']);
-        	$config['theme_url'] = preg_replace('/\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+$/', '', $config['base_url']) . '/' . $config['core_dir'];
-        } else {
-        	$config['app_path'] = $config['base_path'] . DIRECTORY_SEPARATOR . 'app';
-        	$config['theme_path'] = realpath($config['base_path'] . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..') . 
-        	DIRECTORY_SEPARATOR . 'themes';
-        	$config['theme_url'] = preg_replace('/\/[a-zA-Z0-9_]+\/[a-zA-Z0-9_]+$/', '', $config['base_url']);
-        }
+
+    	$config['app_path'] = $config['base_path'] . DIRECTORY_SEPARATOR . 'app';
+		if (isset($config['dir_type']) && $config['dir_type'] != Controller::DIR_TYPE_CURRENT) {
+			if ($config['dir_type'] == Controller::DIR_TYPE_SHARED) {
+		    	$config['theme_url'] = $config['base_url'] . '/../themes';
+		    	$config['asset_url'] = $config['base_url'] . '/../assets';
+		    	$config['theme_path'] = realpath($config['base_path'] . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR . 'themes';
+		    	$config['asset_path'] = realpath($config['base_path'] . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR . 'assets';
+			} else {
+		    	$config['theme_url'] = $config['base_url'] . '/../../themes';
+		    	$config['asset_url'] = $config['base_url'] . '/../../assets';
+		    	$config['theme_path'] = realpath($config['base_path'] . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..') . 
+	    			DIRECTORY_SEPARATOR . 'themes';
+		    	$config['asset_path'] = realpath($config['base_path'] . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..') . 
+		    		DIRECTORY_SEPARATOR . 'assets';
+			}
+		} else {
+	    	$config['theme_url'] = $config['base_url'] . '/themes';
+	    	$config['asset_url'] = $config['base_url'] . '/assets';
+			$config['theme_path'] = realpath($config['base_path'] . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR . 'themes';
+	    	$config['asset_path'] = realpath($config['base_path'] . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR . 'assets';
+		}
+
         $config['absolute_url'] = $config['base_url'];
         $config['config_path'] = $config['app_path'] . DIRECTORY_SEPARATOR . 'config';
         $config['module_path'] = $config['app_path'] . DIRECTORY_SEPARATOR . 'modules';
@@ -123,7 +133,7 @@ class Starter
 		$path = Config::find('app_path') . DIRECTORY_SEPARATOR . 'libraries' .
 			DIRECTORY_SEPARATOR . $class_name . '.php';
 		if (!file_exists($path)) {
-			if (!preg_match('/^Models\\\\.*?$/', $class_name)) {
+			if (!preg_match('/^\\Models\\\\.*?$/', $class_name)) {
 				$path = __DIR__ . DIRECTORY_SEPARATOR . 'Helpers' . DIRECTORY_SEPARATOR . $class_name . '.php';
 				if (!file_exists($path)) {
 					$path = self::$controller != null ? self::abbrPath($path) : $path;
