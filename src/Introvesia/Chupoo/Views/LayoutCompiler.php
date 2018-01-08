@@ -60,7 +60,7 @@ class LayoutCompiler extends Compiler
         	'view' => $view_path,
         	'module_path' => self::$module_path,
         	'base_url' => Config::find('base_url'),
-        	'layout_url' => Config::find('theme_url') . '/themes/' . self::$theme
+        	'layout_url' => Config::find('theme_url') . '/' . self::$theme
         );
 
         $dom = new Layout($config, $view->data);
