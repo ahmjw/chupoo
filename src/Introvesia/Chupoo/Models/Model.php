@@ -208,7 +208,7 @@ abstract class Model
 			throw new Exception("Model is not found: $path", 500);
 		}
 		include_once($path);
-		$name = 'Models\\' . $name;
+		$name = '\\Models\\' . $name;
 		if (!class_exists($name)) {
 			throw new Exception("Model class is not found: $name", 500);
 		}
