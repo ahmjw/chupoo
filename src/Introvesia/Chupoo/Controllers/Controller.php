@@ -11,8 +11,7 @@ namespace Introvesia\Chupoo\Controllers;
 use Exception;
 use Introvesia\Chupoo\Starter;
 use Introvesia\Chupoo\Views\View;
-use Introvesia\Chupoo\Views\LayoutCompiler;
-use Introvesia\Chupoo\Views\WidgetCompiler;
+use Introvesia\Chupoo\Views\Layout;
 use Introvesia\Chupoo\Helpers\Config;
 use Introvesia\Chupoo\Helpers\User;
 use Introvesia\Chupoo\Helpers\File;
@@ -101,7 +100,7 @@ class Controller
     		$args = !empty($args) ? $args : $this->hmvc->args;
     		$closure = call_user_func_array($closure, $args);
 	        if ($closure instanceof View) {
-	        	$compiler = new LayoutCompiler();
+	        	$compiler = new Layout();
 	        	$compiler::$module_path = $this->hmvc->module_path;
 	        	$compiler->render($closure);
 		    } else {
@@ -109,6 +108,28 @@ class Controller
 	        	print(json_encode($closure));
 		    }
 		}
+	}
+
+	public function getWidgetInfo($widget_key)
+	{
+		$widget_info = array();
+
+		if (isset($this->widgets[$widget_key])) {
+			foreach ($this->widgets[$widget_key] as $widget_name) {
+				$dir = Config::find('module_path') . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR . 'modules' .
+					DIRECTORY_SEPARATOR, $this->hmvc->module) . DIRECTORY_SEPARATOR;
+				$path = $dir . 'controllers' . DIRECTORY_SEPARATOR . '_' . $widget_name . '.php';
+				if (file_exists($path)) {
+		    		$closure = call_user_func_array($this->outputBuffering($path), array());
+			        if ($closure instanceof View) {
+			        	$closure->name = $dir . 'views' . DIRECTORY_SEPARATOR . $closure->name . '.html';;
+			        	$widget_info[] = $closure;
+				    }
+				}
+			}
+		}
+
+		return $widget_info;
 	}
 
 	private function inheritLoader()
@@ -400,26 +421,6 @@ class Controller
 		return str_replace('\\', DIRECTORY_SEPARATOR, str_replace('/', DIRECTORY_SEPARATOR, $path));
 	}
 
-	// Source: http://stackoverflow.com/questions/6225351/how-to-minify-php-page-html-output
-	public function sanitizeOutput($buffer)
-	{
-	    $search = array(
-	        '/\>[^\S ]+/s',  // strip whitespaces after tags, except space
-	        '/[^\S ]+\</s',  // strip whitespaces before tags, except space
-	        '/(\s)+/s'       // shorten multiple whitespace sequences
-	    );
-
-	    $replace = array(
-	        '>',
-	        '<',
-	        '\\1'
-	    );
-
-	    $buffer = preg_replace($search, $replace, $buffer);
-
-	    return $buffer;
-	}
-
 	public function outputBuffering($path, array $args = array())
 	{
 		if (Config::find('compress_script')) {
@@ -433,91 +434,5 @@ class Controller
 			return $content;
 		}
 		return ob_get_clean();
-	}
-
-	public function widget()
-	{
-		switch (func_num_args()) {
-			case 1:
-				$key = func_get_arg(0);
-				if (isset($this->widgets[$key])) {
-					print_r($this->widgets[$key]);
-				}
-				break;
-			case 2:
-				$key = func_get_arg(0);
-				$widget = func_get_arg(1);
-				$module = str_replace('/', DIRECTORY_SEPARATOR, substr($widget, 0, strrpos($widget, '/')));
-				$action = substr($widget, strrpos($widget, '/') + 1);
-
-				$path = Config::find('module_path') . DIRECTORY_SEPARATOR . str_replace(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR . 'modules' .
-					DIRECTORY_SEPARATOR, $module) . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . '_' . $action . '.php';
-				if (file_exists($path)) {
-					$closure = $this->outputBuffering($path);
-		    		$args = !empty($args) ? $args : $this->hmvc->args;
-		    		$closure = call_user_func_array($closure, $args);
-			        if ($closure instanceof View) {
-			        	$compiler = new WidgetCompiler();
-			        	if (!isset($this->widgets[$key]))
-			        		$this->widgets[$key] = '';
-			        	$this->widgets[$key] .= $compiler->render($closure, $module);
-				    }
-				} else {
-					throw new Exception('The widget is not found: ' . Starter::abbrPath($path), 500);
-				}
-				break;
-			default:
-				throw new Exception('Bad argument', 500);
-		}
-	}
-
-	// public function import($route)
-	// {
-	// 	$module = str_replace('/', DIRECTORY_SEPARATOR, substr($route, 0, strrpos($route, '/')));
-	// 	$action = substr($route, strrpos($route, '/') + 1);
-	// 	$path = $this->moduleDir() . str_replace(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR, $module) .
-	// 		DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $action . '.php';
-	// 	if (file_exists($path)) {
-	// 		$content = $this->outputBuffering($path);
-	// 		if ($content instanceof View) {
-	// 			$compiler = new ViewCompiler();
-	// 			echo $compiler->readView($content);
-	// 		} else {
-	// 			echo $content;
-	// 		}
-	// 	} else {
-	// 		throw new Exception('The module is not found: ' . Starter::abbrPath($path), 500);
-	// 	}
-	// }
-
-	public function clearWidget($name = null)
-	{
-		if ($name !== null) {
-			if (isset($this->widgets[$name])) {
-				unset($this->widgets[$name]);
-			}
-		} else {
-			$this->widgets = array();
-		}
-	}
-
-	public function getClientIp()
-	{
-	    $ipaddress = '';
-	    if (isset($_SERVER['HTTP_CLIENT_IP']))
-	        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-	    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-	        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	    else if(isset($_SERVER['HTTP_X_FORWARDED']))
-	        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-	    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-	        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-	    else if(isset($_SERVER['HTTP_FORWARDED']))
-	        $ipaddress = $_SERVER['HTTP_FORWARDED'];
-	    else if(isset($_SERVER['REMOTE_ADDR']))
-	        $ipaddress = $_SERVER['REMOTE_ADDR'];
-	    else
-	        $ipaddress = 'UNKNOWN';
-	    return $ipaddress;
 	}
 }

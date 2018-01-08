@@ -10,9 +10,10 @@ namespace Introvesia\Chupoo\Views;
 
 use Introvesia\Chupoo\Starter;
 use Introvesia\Chupoo\Helpers\Config;
-use Introvesia\PhpDomView\Layout;
+use Introvesia\PhpDomView\Layout as DomLayout;
+use Introvesia\PhpDomView\Widget;
 
-class LayoutCompiler extends Compiler
+class Layout
 {
 	public static $theme;
 	public static $layout;
@@ -51,7 +52,7 @@ class LayoutCompiler extends Compiler
 				self::$layout = 'index';
 		}
 
-		$this->dir = Config::find('theme_path') . DIRECTORY_SEPARATOR . self::$theme . DIRECTORY_SEPARATOR;
+		$this->dir = Config::find('theme_path') . DIRECTORY_SEPARATOR . self::$theme;
 		$view_path = self::$module_path . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $view->name . '.html';
 
         $config = array(
@@ -63,36 +64,12 @@ class LayoutCompiler extends Compiler
         	'layout_url' => Config::find('theme_url') . '/' . self::$theme
         );
 
-        $dom = new Layout($config, $view->data);
+        $dom = new DomLayout($config, $view->data);
+        foreach ($dom->getWidgetKeys() as $widget_key) {
+        	$widget_info = Starter::getController()->getWidgetInfo($widget_key);
+        	$dom->widget($widget_key, $widget_info);
+        }
         $dom->parse();
         print($dom->getOutput());
-	}
-
-	private static function parseToken($token)
-	{
-		list($id, $content) = $token;
-		if ($id == T_INLINE_HTML) {
-			$content = Parser::parseLayout($content);
-		}
-		return $content;
-	}
-
-	public function includes($name)
-	{
-		$path = $this->dir . $name . '.php';
-		if (!file_exists($path)) {
-        	throw new \Exception('Layout file is not found: ' . Starter::abbrPath($path), 500);
-        }
-        return self::bind($path);
-	}
-
-	public function widget($name)
-	{
-		Starter::getController()->widget($name);
-	}
-
-	public function import($name)
-	{
-		Starter::getController()->import($name);
 	}
 }
